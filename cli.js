@@ -6,7 +6,7 @@ import fetch from "node-fetch";
 
 const args = minimist(process.argv.slice(2))
 
-if('-h' in args){
+if('h' in args){
     console.log(`
         Usage: galosh.js [options] -[n|s] LATITUDE -[e|w] LONGITUDE -z TIME_ZONE
             -h            Show this help message and exit.
@@ -21,48 +21,50 @@ if('-h' in args){
 let long;
 let lat;
 
-if('-n' in args) {
-    latitude = args["n"];
-}else if('-s' in args) {
-    latitude = -args["s"];
+if('n' in args) {
+    lat = args["n"];
+}else if('s' in args) {
+    lat = -args["s"];
 }
 
-if('-e' in args) {
-    longitude = args["e"];
-}else if('-w' in args) {
-    longitude = -args["w"];
+if('e' in args) {
+    long = args["e"];
+}else if('w' in args) {
+    long = -args["w"];
 }
 
 // Statements below to validate that lat and long are valid
-if(latitude == undefined || Math.abs(latitude) > 90) {
+if(lat == undefined || Math.abs(lat) > 90) {
     process.exit(1);
 }
-if(longitude == undefined || Math.abs(longitude) > 180) {
+if(long == undefined || Math.abs(long) > 180) {
     process.exit(1);
 }
 
 //Set the timexone
 let timezone = moment.tz.guess();
-if('-t' in args){
-    timezone  =  args['-t'];
+if('t' in args){
+    timezone  =  args['t'];
 }
 
 //Send API request 
-let req_url = "https://api.open-meteo.com/v1/forecast?latitude=" + latitude + "&longitude=" + longitude + "&daily=precipitation_hours&current_weather=true&timezone=" + timezone;
+let req_url = "https://api.open-meteo.com/v1/forecast?latitude=" + lat + "&longitude=" + long + "&daily=precipitation_hours&current_weather=true&timezone=" + timezone;
 const response = await fetch(req_url);
-let data = response.json();
+const data = await response.json();
 
-if('-j' in args) {
+if('j' in args) {
     console.log(data);
     process.exit(0);
 }
 
-let days = args['-d']
+let days = args['d']
+
+//console.log(data)
 
 if (days == 0) {
-    console.log("At coordinates: (" + latitude + ", " + longitude + "), it should rain " + data["daily"]["precipitation_hours"][0] + " hours today.\n");
+    console.log("At coordinates: (" + lat + ", " + long + "), it should rain " + data["daily"]["precipitation_hours"][0] + " hours today.\n");
 } else if (days > 1) {
-    console.log("At coordinates: (" + latitude + ", " + longitude + "), it should rain " + data["daily"]["precipitation_hours"][0] + " hours in " + days + " days.\n");
+    console.log("At coordinates: (" + lat + ", " + long + "), it should rain " + data["daily"]["precipitation_hours"][0] + " hours in " + days + " days.\n");
 } else {
-    console.log("At at coordinates: (" + latitude + ", " + longitude + "), it should rain " + data["daily"]["precipitation_hours"][0] + " hours tomorrow.\n");
+    console.log("At at coordinates: (" + lat + ", " + long + "), it should rain " + data["daily"]["precipitation_hours"][0] + " hours tomorrow.\n");
 }
