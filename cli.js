@@ -18,6 +18,17 @@ if('-h' in args){
     process.exit(0);
 }
 
+let long;
+let lat;
 
+if("-n" in args) {
+    latitude = args["n"];
+}else if("-s" in args) {
+    latitude = -args["s"];
+}
 
-
+if("-e" in args) {
+    longitude = args["e"];
+}else if("-w" in args) {
+    longitude = -args["w"];
+}
