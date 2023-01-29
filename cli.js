@@ -32,3 +32,17 @@ if("-e" in args) {
 }else if("-w" in args) {
     longitude = -args["w"];
 }
+
+// Statements below to validate that lat and long are valid
+if(latitude == undefined || Math.abs(latitude) > 90) {
+    process.exit(1);
+}
+if(longitude == undefined || Math.abs(longitude) > 180) {
+    process.exit(1);
+}
+
+//Set the timexone
+let timezone = moment.tz.guess();
+if('-t' in args){
+    timezone  =  args['-t'];
+}
