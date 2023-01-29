@@ -21,15 +21,15 @@ if('-h' in args){
 let long;
 let lat;
 
-if("-n" in args) {
+if('-n' in args) {
     latitude = args["n"];
-}else if("-s" in args) {
+}else if('-s' in args) {
     latitude = -args["s"];
 }
 
-if("-e" in args) {
+if('-e' in args) {
     longitude = args["e"];
-}else if("-w" in args) {
+}else if('-w' in args) {
     longitude = -args["w"];
 }
 
@@ -51,3 +51,18 @@ if('-t' in args){
 let req_url = "https://api.open-meteo.com/v1/forecast?latitude=" + latitude + "&longitude=" + longitude + "&daily=precipitation_hours&current_weather=true&timezone=" + timezone;
 const response = await fetch(req_url);
 let data = response.json();
+
+if('-j' in args) {
+    console.log(data);
+    process.exit(0);
+}
+
+let days = args['-d']
+
+if (days == 0) {
+    console.log("At coordinates: (" + latitude + ", " + longitude + "), it should rain " + data["daily"]["precipitation_hours"][0] + " hours today.\n");
+} else if (days > 1) {
+    console.log("At coordinates: (" + latitude + ", " + longitude + "), it should rain " + data["daily"]["precipitation_hours"][0] + " hours in " + days + " days.\n");
+} else {
+    console.log("At at coordinates: (" + latitude + ", " + longitude + "), it should rain " + data["daily"]["precipitation_hours"][0] + " hours tomorrow.\n");
+}
