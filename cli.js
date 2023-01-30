@@ -62,9 +62,9 @@ let days = args['d']
 //console.log(data)
 
 if (days == 0) {
-    console.log("At coordinates: (" + lat + ", " + long + "), it should rain " + data["daily"]["precipitation_hours"][0] + " hours today.\n");
+    console.log("It will rain at the coordinates: " + lat + ", " + long  + data["daily"]["precipitation_hours"][0] + " hours today.\n");
 } else if (days > 1) {
-    console.log("At coordinates: (" + lat + ", " + long + "), it should rain " + data["daily"]["precipitation_hours"][0] + " hours in " + days + " days.\n");
+    console.log("It will rain at the coordinates: " + lat + ", " + long + data["daily"]["precipitation_hours"][0] + " hours in " + days + " days.\n");
 } else {
-    console.log("At at coordinates: (" + lat + ", " + long + "), it should rain " + data["daily"]["precipitation_hours"][0] + " hours tomorrow.\n");
+    console.log("It will rain at coordinates: " + lat + ", " + long + data["daily"]["precipitation_hours"][0] + " hours tomorrow.\n");
 }
