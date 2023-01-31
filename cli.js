@@ -34,7 +34,7 @@ if('e' in args) {
 }
 
 if(!lat || !long){
-    console.log("Latitude and Longitude must be specified")
+    console.log("Latitude must be in range")
     process.exit(0)
 }
 
