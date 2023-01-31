@@ -33,6 +33,11 @@ if('e' in args) {
     long = -args["w"];
 }
 
+if(!lat || !long){
+    console.log("Latitude and Longitude must be specified")
+    process.exit(0)
+}
+
 // Statements below to validate that lat and long are valid
 if(lat == undefined || Math.abs(lat) > 90) {
     process.exit(1);
@@ -50,9 +55,10 @@ if('t' in args){
 //Send API request 
 let req_url = "https://api.open-meteo.com/v1/forecast?latitude=" + lat + "&longitude=" + long + "&daily=precipitation_hours&current_weather=true&timezone=" + timezone;
 const response = await fetch(req_url);
-const data = await response.json();
+let data = await response.json();
+//console.log(data)
 
-if('j' in args) {
+if("j" in args) {
     console.log(data);
     process.exit(0);
 }
